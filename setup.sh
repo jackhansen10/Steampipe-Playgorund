@@ -20,6 +20,10 @@ fi
 
 echo "✅ Steampipe is installed"
 
+# Check Python version
+echo "🐍 Checking Python version..."
+python3 --version
+
 # Create and activate virtual environment
 echo "🐍 Creating Python virtual environment..."
 python3 -m venv venv
@@ -27,6 +31,7 @@ source venv/bin/activate
 
 # Install Python dependencies
 echo "📦 Installing Python dependencies..."
+pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 
 # Make scripts executable
@@ -86,5 +91,10 @@ echo "5. Run examples: python examples/basic_usage.py"
 echo ""
 echo "Note: Always activate the virtual environment before running Python scripts:"
 echo "  source venv/bin/activate"
+echo ""
+echo "If you encounter build errors, try:"
+echo "  source venv/bin/activate"
+echo "  pip install --upgrade pip setuptools wheel"
+echo "  pip install -r requirements.txt"
 echo ""
 echo "For more information, see README.md"

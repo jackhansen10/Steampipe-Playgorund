@@ -137,6 +137,7 @@ The setup script automatically creates a virtual environment and installs depend
 # Or manually:
 python3 -m venv venv
 source venv/bin/activate
+pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
@@ -345,6 +346,13 @@ The query executor supports multiple output formats:
    ```bash
    # If you see this error, run the setup script:
    ./setup.sh
+   ```
+
+7. **Build wheel error**: Try upgrading pip and build tools
+   ```bash
+   source venv/bin/activate
+   pip install --upgrade pip setuptools wheel
+   pip install -r requirements.txt
    ```
 
 ### Getting Help
