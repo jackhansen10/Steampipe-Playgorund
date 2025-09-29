@@ -131,7 +131,7 @@ export SLACK_TOKEN=xoxb-your-bot-token
 ### 4. Install Python Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ### 5. Start Steampipe Service
@@ -153,22 +153,22 @@ steampipe service start
 
 3. **Test the setup:**
    ```bash
-   python scripts/steampipe_query.py --list-tables
+   python3 scripts/steampipe_query.py --list-tables
    ```
 
 4. **Run a pre-built query:**
    ```bash
-   python scripts/query_runner.py queries/github/repositories.sql
+   python3 scripts/query_runner.py queries/github/repositories.sql
    ```
 
 5. **Execute a custom query:**
    ```bash
-   python scripts/steampipe_query.py "SELECT * FROM github_repository LIMIT 5"
+   python3 scripts/steampipe_query.py "SELECT * FROM github_repository LIMIT 5"
    ```
 
 6. **Run examples:**
    ```bash
-   python examples/basic_usage.py
+   python3 examples/basic_usage.py
    ```
 
 ### Python Scripts
@@ -179,22 +179,22 @@ The main script provides comprehensive query execution capabilities:
 
 ```bash
 # Execute a query with table output (default)
-python scripts/steampipe_query.py "SELECT name, stargazers_count FROM github_repository ORDER BY stargazers_count DESC LIMIT 10"
+python3 scripts/steampipe_query.py "SELECT name, stargazers_count FROM github_repository ORDER BY stargazers_count DESC LIMIT 10"
 
 # Execute a query with JSON output
-python scripts/steampipe_query.py "SELECT * FROM confluence_page LIMIT 5" --output json
+python3 scripts/steampipe_query.py "SELECT * FROM confluence_page LIMIT 5" --output json
 
 # Execute a query from a file
-python scripts/steampipe_query.py --file queries/aws/ec2_instances.sql --output csv
+python3 scripts/steampipe_query.py --file queries/aws/ec2_instances.sql --output csv
 
 # List available tables
-python scripts/steampipe_query.py --list-tables
+python3 scripts/steampipe_query.py --list-tables
 
 # List tables for a specific plugin
-python scripts/steampipe_query.py --list-tables --plugin github
+python3 scripts/steampipe_query.py --list-tables --plugin github
 
 # Describe a table schema
-python scripts/steampipe_query.py --describe github_repository
+python3 scripts/steampipe_query.py --describe github_repository
 ```
 
 #### Simple Query Runner (`scripts/query_runner.py`)
@@ -203,10 +203,10 @@ A simplified interface for running queries from files:
 
 ```bash
 # Run a query file with default table output
-python scripts/query_runner.py queries/github/repositories.sql
+python3 scripts/query_runner.py queries/github/repositories.sql
 
 # Run a query file with JSON output
-python scripts/query_runner.py queries/confluence/pages.sql json
+python3 scripts/query_runner.py queries/confluence/pages.sql json
 ```
 
 ### Example Queries
@@ -237,7 +237,7 @@ See `examples/basic_usage.py` for comprehensive examples of:
 - Exporting results in different formats
 
 ```bash
-python examples/basic_usage.py
+python3 examples/basic_usage.py
 ```
 
 ## 🔧 Configuration
@@ -314,6 +314,11 @@ The query executor supports multiple output formats:
 4. **Permission denied**: Check file permissions
    ```bash
    chmod +x scripts/*.py
+   ```
+
+5. **Python command not found**: Use python3 instead of python
+   ```bash
+   python3 scripts/steampipe_query.py --list-tables
    ```
 
 ### Getting Help

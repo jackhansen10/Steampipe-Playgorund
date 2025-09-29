@@ -22,7 +22,7 @@ echo "✅ Steampipe is installed"
 
 # Install Python dependencies
 echo "📦 Installing Python dependencies..."
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 # Make scripts executable
 echo "🔧 Making scripts executable..."
@@ -74,8 +74,8 @@ echo "=================================="
 echo ""
 echo "Next steps:"
 echo "1. Edit .env file with your actual API tokens and credentials"
-echo "2. Test the setup by running: python scripts/steampipe_query.py --list-tables"
-echo "3. Try a sample query: python scripts/query_runner.py queries/github/repositories.sql"
-echo "4. Run examples: python examples/basic_usage.py"
+echo "2. Test the setup by running: python3 scripts/steampipe_query.py --list-tables"
+echo "3. Try a sample query: python3 scripts/query_runner.py queries/github/repositories.sql"
+echo "4. Run examples: python3 examples/basic_usage.py"
 echo ""
 echo "For more information, see README.md"
