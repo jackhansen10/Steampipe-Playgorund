@@ -26,10 +26,34 @@ Steampipe-Playgorund/
 │   └── basic_usage.py     # Usage examples and data transformation
 ├── config/                # Configuration files
 ├── requirements.txt       # Python dependencies
+├── setup.sh              # Automated setup script
+├── .gitignore            # Git ignore file
 └── README.md             # This file
 ```
 
 ## 🛠️ Installation
+
+### Quick Setup (Recommended)
+
+Use the automated setup script to get started quickly:
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd Steampipe-Playgorund
+
+# Run the setup script
+./setup.sh
+```
+
+The setup script will:
+- Check if Steampipe is installed
+- Install Python dependencies
+- Install required Steampipe plugins
+- Create configuration files
+- Start the Steampipe service
+
+### Manual Installation
 
 ### 1. Install Steampipe
 
@@ -125,14 +149,26 @@ steampipe service start
    steampipe service start
    ```
 
-2. **Run a pre-built query:**
+2. **Configure your credentials** in the `.env` file (created by setup script)
+
+3. **Test the setup:**
+   ```bash
+   python scripts/steampipe_query.py --list-tables
+   ```
+
+4. **Run a pre-built query:**
    ```bash
    python scripts/query_runner.py queries/github/repositories.sql
    ```
 
-3. **Execute a custom query:**
+5. **Execute a custom query:**
    ```bash
    python scripts/steampipe_query.py "SELECT * FROM github_repository LIMIT 5"
+   ```
+
+6. **Run examples:**
+   ```bash
+   python examples/basic_usage.py
    ```
 
 ### Python Scripts
