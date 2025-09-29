@@ -30,6 +30,8 @@ ENV/
 env.bak/
 venv.bak/
 
+# Note: venv/ is included in .gitignore but will be created by setup.sh
+
 # IDE
 .vscode/
 .idea/

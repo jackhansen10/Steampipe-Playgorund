@@ -130,8 +130,14 @@ export SLACK_TOKEN=xoxb-your-bot-token
 
 ### 4. Install Python Dependencies
 
+The setup script automatically creates a virtual environment and installs dependencies:
+
 ```bash
-pip3 install -r requirements.txt
+# Virtual environment is created automatically by setup.sh
+# Or manually:
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ### 5. Start Steampipe Service
@@ -144,31 +150,36 @@ steampipe service start
 
 ### Quick Start
 
-1. **Start Steampipe service:**
+1. **Activate the virtual environment:**
+   ```bash
+   source venv/bin/activate
+   ```
+
+2. **Start Steampipe service:**
    ```bash
    steampipe service start
    ```
 
-2. **Configure your credentials** in the `.env` file (created by setup script)
+3. **Configure your credentials** in the `.env` file (created by setup script)
 
-3. **Test the setup:**
+4. **Test the setup:**
    ```bash
-   python3 scripts/steampipe_query.py --list-tables
+   python scripts/steampipe_query.py --list-tables
    ```
 
-4. **Run a pre-built query:**
+5. **Run a pre-built query:**
    ```bash
-   python3 scripts/query_runner.py queries/github/repositories.sql
+   python scripts/query_runner.py queries/github/repositories.sql
    ```
 
-5. **Execute a custom query:**
+6. **Execute a custom query:**
    ```bash
-   python3 scripts/steampipe_query.py "SELECT * FROM github_repository LIMIT 5"
+   python scripts/steampipe_query.py "SELECT * FROM github_repository LIMIT 5"
    ```
 
-6. **Run examples:**
+7. **Run examples:**
    ```bash
-   python3 examples/basic_usage.py
+   python examples/basic_usage.py
    ```
 
 ### Python Scripts
@@ -178,23 +189,26 @@ steampipe service start
 The main script provides comprehensive query execution capabilities:
 
 ```bash
+# Activate virtual environment first
+source venv/bin/activate
+
 # Execute a query with table output (default)
-python3 scripts/steampipe_query.py "SELECT name, stargazers_count FROM github_repository ORDER BY stargazers_count DESC LIMIT 10"
+python scripts/steampipe_query.py "SELECT name, stargazers_count FROM github_repository ORDER BY stargazers_count DESC LIMIT 10"
 
 # Execute a query with JSON output
-python3 scripts/steampipe_query.py "SELECT * FROM confluence_page LIMIT 5" --output json
+python scripts/steampipe_query.py "SELECT * FROM confluence_page LIMIT 5" --output json
 
 # Execute a query from a file
-python3 scripts/steampipe_query.py --file queries/aws/ec2_instances.sql --output csv
+python scripts/steampipe_query.py --file queries/aws/ec2_instances.sql --output csv
 
 # List available tables
-python3 scripts/steampipe_query.py --list-tables
+python scripts/steampipe_query.py --list-tables
 
 # List tables for a specific plugin
-python3 scripts/steampipe_query.py --list-tables --plugin github
+python scripts/steampipe_query.py --list-tables --plugin github
 
 # Describe a table schema
-python3 scripts/steampipe_query.py --describe github_repository
+python scripts/steampipe_query.py --describe github_repository
 ```
 
 #### Simple Query Runner (`scripts/query_runner.py`)
@@ -202,11 +216,14 @@ python3 scripts/steampipe_query.py --describe github_repository
 A simplified interface for running queries from files:
 
 ```bash
+# Activate virtual environment first
+source venv/bin/activate
+
 # Run a query file with default table output
-python3 scripts/query_runner.py queries/github/repositories.sql
+python scripts/query_runner.py queries/github/repositories.sql
 
 # Run a query file with JSON output
-python3 scripts/query_runner.py queries/confluence/pages.sql json
+python scripts/query_runner.py queries/confluence/pages.sql json
 ```
 
 ### Example Queries
@@ -237,7 +254,9 @@ See `examples/basic_usage.py` for comprehensive examples of:
 - Exporting results in different formats
 
 ```bash
-python3 examples/basic_usage.py
+# Activate virtual environment first
+source venv/bin/activate
+python examples/basic_usage.py
 ```
 
 ## 🔧 Configuration
@@ -316,9 +335,16 @@ The query executor supports multiple output formats:
    chmod +x scripts/*.py
    ```
 
-5. **Python command not found**: Use python3 instead of python
+5. **Python command not found**: Activate virtual environment first
    ```bash
-   python3 scripts/steampipe_query.py --list-tables
+   source venv/bin/activate
+   python scripts/steampipe_query.py --list-tables
+   ```
+
+6. **Externally managed environment error**: Virtual environment is created automatically by setup.sh
+   ```bash
+   # If you see this error, run the setup script:
+   ./setup.sh
    ```
 
 ### Getting Help
