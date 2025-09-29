@@ -1,16 +1,17 @@
--- Get recent issues across repositories
+-- Get recent issues for a specific repository
+-- Replace 'turbot/steampipe' with the repository you want to query
 SELECT 
-    r.name as repository,
-    i.number,
-    i.title,
-    i.state,
-    i.user_login as author,
-    i.created_at,
-    i.updated_at,
-    i.comments,
-    i.html_url
-FROM github_issue i
-JOIN github_repository r ON i.repository_full_name = r.full_name
-WHERE i.created_at > NOW() - INTERVAL '30 days'
-ORDER BY i.created_at DESC
+    repository_full_name,
+    number,
+    title,
+    state,
+    user_login as author,
+    created_at,
+    updated_at,
+    comments,
+    html_url
+FROM github_issue
+WHERE repository_full_name = 'turbot/steampipe'  -- Replace with your target repository
+  AND created_at > NOW() - INTERVAL '30 days'
+ORDER BY created_at DESC
 LIMIT 50;

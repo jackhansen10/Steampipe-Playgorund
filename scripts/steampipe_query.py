@@ -17,6 +17,7 @@ from psycopg2.extras import RealDictCursor
 from tabulate import tabulate
 from colorama import init, Fore, Style
 from dotenv import load_dotenv
+from datetime import datetime
 
 # Initialize colorama for cross-platform colored output
 init()
@@ -55,7 +56,7 @@ class SteampipeQueryExecutor:
             self.connection.close()
             print(f"{Fore.YELLOW}Disconnected from Steampipe{Style.RESET_ALL}")
     
-    def execute_query(self, query: str, output_format: str = "table") -> Optional[Any]:
+    def execute_query(self, query: str, output_format: str = "table", save_csv: bool = True) -> Optional[Any]:
         """Execute a SQL query and return formatted results."""
         if not self.connection:
             print(f"{Fore.RED}✗ Not connected to Steampipe{Style.RESET_ALL}")
@@ -75,6 +76,10 @@ class SteampipeQueryExecutor:
                 
                 # Convert to list of dictionaries
                 data = [dict(row) for row in results]
+                
+                # Always save to CSV if save_csv is True
+                if save_csv:
+                    self._save_to_csv(data, query)
                 
                 # Format output based on requested format
                 if output_format == "json":
@@ -113,6 +118,36 @@ class SteampipeQueryExecutor:
         
         df = pd.DataFrame(data)
         return tabulate(df, headers='keys', tablefmt='grid', showindex=False)
+    
+    def _save_to_csv(self, data: List[Dict], query: str) -> None:
+        """Save query results to CSV file."""
+        if not data:
+            return
+        
+        # Create output directory if it doesn't exist
+        output_dir = "output"
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Generate filename based on timestamp and query
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Extract table name from query for better filename
+        table_name = "query_results"
+        if "FROM" in query.upper():
+            try:
+                table_part = query.upper().split("FROM")[1].split()[0]
+                table_name = table_part.lower().replace("_", "")
+            except:
+                pass
+        
+        filename = f"{output_dir}/{table_name}_{timestamp}.csv"
+        
+        # Save to CSV
+        df = pd.DataFrame(data)
+        df.to_csv(filename, index=False)
+        
+        print(f"{Fore.GREEN}✓ Results saved to: {filename}{Style.RESET_ALL}")
+        print(f"{Fore.CYAN}  Rows: {len(data)}, Columns: {len(data[0]) if data else 0}{Style.RESET_ALL}")
     
     def get_available_tables(self, plugin: Optional[str] = None) -> List[str]:
         """Get list of available tables, optionally filtered by plugin."""
@@ -156,6 +191,7 @@ def main():
     parser.add_argument("--list-tables", action="store_true", help="List available tables")
     parser.add_argument("--plugin", help="Filter tables by plugin name")
     parser.add_argument("--describe", help="Describe table schema")
+    parser.add_argument("--no-csv", action="store_true", help="Don't save results to CSV file")
     
     args = parser.parse_args()
     
@@ -195,7 +231,8 @@ def main():
                 query = args.query
             
             # Execute query
-            result = executor.execute_query(query, args.output)
+            save_csv = not args.no_csv
+            result = executor.execute_query(query, args.output, save_csv)
             if result is not None:
                 print(f"\n{Fore.CYAN}Query Results:{Style.RESET_ALL}")
                 print(result)

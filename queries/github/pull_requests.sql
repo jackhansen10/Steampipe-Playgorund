@@ -1,20 +1,21 @@
--- Get recent pull requests with status information
+-- Get recent pull requests for a specific repository
+-- Replace 'turbot/steampipe' with the repository you want to query
 SELECT 
-    r.name as repository,
-    pr.number,
-    pr.title,
-    pr.state,
-    pr.user_login as author,
-    pr.created_at,
-    pr.updated_at,
-    pr.merged_at,
-    pr.comments,
-    pr.additions,
-    pr.deletions,
-    pr.changed_files,
-    pr.html_url
-FROM github_pull_request pr
-JOIN github_repository r ON pr.repository_full_name = r.full_name
-WHERE pr.created_at > NOW() - INTERVAL '30 days'
-ORDER BY pr.created_at DESC
+    repository_full_name,
+    number,
+    title,
+    state,
+    user_login as author,
+    created_at,
+    updated_at,
+    merged_at,
+    comments,
+    additions,
+    deletions,
+    changed_files,
+    html_url
+FROM github_pull_request
+WHERE repository_full_name = 'turbot/steampipe'  -- Replace with your target repository
+  AND created_at > NOW() - INTERVAL '30 days'
+ORDER BY created_at DESC
 LIMIT 30;

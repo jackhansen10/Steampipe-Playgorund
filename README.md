@@ -25,6 +25,7 @@ Steampipe-Playgorund/
 ├── examples/               # Example Python scripts
 │   └── basic_usage.py     # Usage examples and data transformation
 ├── config/                # Configuration files
+├── output/                # CSV output files (auto-generated)
 ├── requirements.txt       # Python dependencies
 ├── setup.sh              # Automated setup script
 ├── .gitignore            # Git ignore file
@@ -314,6 +315,23 @@ The query executor supports multiple output formats:
 - **JSON**: JSON format for programmatic use
 - **CSV**: Comma-separated values for spreadsheet import
 - **Pandas**: Returns pandas DataFrame for data analysis
+
+### Automatic CSV Export
+
+All queries automatically save results to CSV files in the `output/` directory:
+
+- **Filename format**: `{table_name}_{timestamp}.csv`
+- **Location**: `output/` directory
+- **Disable**: Use `--no-csv` flag to skip CSV saving
+
+Example:
+```bash
+# Query results automatically saved to output/githubrepository_20241201_143022.csv
+python scripts/steampipe_query.py "SELECT name FROM github_repository LIMIT 5"
+
+# Skip CSV saving
+python scripts/steampipe_query.py "SELECT name FROM github_repository LIMIT 5" --no-csv
+```
 
 ## 🚨 Troubleshooting
 
